@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Preview three clearly labeled example campaigns",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "interactive example mode",
+      "campaign cards",
+      "illustrative content disclosure"
+    ],
+    "description": "Business owner can explore a sample layout without mistakenly viewing it as actual Qloo evidence.",
+    "steps": [
+      "Open CulturePilot and select Explore layout with example ideas",
+      "Review the cultural signals and campaign directions"
+    ],
+    "expected": "Shows three actionable campaign cards, explicit ILLUSTRATIVE EXAMPLE · NOT QLOO DATA banner, and a preview disclaimer."
+  },
+  {
+    "name": "Reject missing cultural inspiration on mobile",
+    "viewport": "mobile",
+    "covers": ["form validation", "mobile brief editor"],
+    "description": "An incomplete input cannot start a Qloo analysis or sample preview.",
+    "steps": [
+      "Open the app on mobile",
+      "Clear the Cultural inspiration field",
+      "Select Explore layout with example ideas"
+    ],
+    "expected": "Shows a visible validation message requesting business, audience, and cultural inspiration; no campaigns are generated."
+  },
+  {
+    "name": "Show secure Qloo connection state and controlled failure",
+    "viewport": "desktop",
+    "covers": [
+      "GET /api/status",
+      "POST /api/campaign",
+      "missing secret warning",
+      "failure handling"
+    ],
+    "description": "Without a configured key the app reports a truthful state rather than fabricating Qloo results.",
+    "steps": [
+      "Open the app and inspect the API connection indicator",
+      "Click Generate with live Qloo before a key has been connected"
+    ],
+    "expected": "The status indicates API key needed and live analysis displays a visible key-not-connected error. No live Qloo campaign results are shown."
+  },
+  {
+    "name": "Show graceful backend failure for live analysis",
+    "viewport": "mobile",
+    "covers": ["POST /api/campaign failure response", "retry feedback"],
+    "description": "Upstream errors do not cause a blank or falsely successful screen.",
+    "qa_faults": [
+      {
+        "method": "POST",
+        "path": "/api/campaign",
+        "status": 502,
+        "body_json": {
+          "error": "Qloo service is unavailable for this test."
+        }
+      }
+    ],
+    "steps": [
+      "On mobile, click Generate with live Qloo using valid sample form fields"
+    ],
+    "expected": "A visible error appears and the app does not claim to have created verified cultural recommendations."
+  }
+]
