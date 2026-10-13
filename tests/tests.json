@@ -69,5 +69,21 @@
       "On mobile, click Generate with live Qloo using valid sample form fields"
     ],
     "expected": "A visible error appears and the app does not claim to have created verified cultural recommendations."
+  },
+  {
+    "name": "Compare the same brief with and without Qloo",
+    "description": "Comparison shows real model-only output without claiming measured uplift.",
+    "viewport": "desktop",
+    "covers": [
+      "LLM-only comparison",
+      "same brief comparison",
+      "baseline disclosure"
+    ],
+    "steps": [
+      "Use the default Blue Ridge Coffee / Taylor Swift brief",
+      "Click Compare with LLM-only",
+      "Wait for both result groups"
+    ],
+    "expected": "Shows Same brief. Different evidence., three LLM-only campaigns labeled no Qloo evidence, and three Qloo-grounded campaigns with cultural signals and test plans. States the comparison is not proof of conversion lift."
   }
 ]
