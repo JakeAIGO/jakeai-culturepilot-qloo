@@ -106,6 +106,8 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<Result | null>(null);
+  const [baselineResult, setBaselineResult] = useState<Result | null>(null);
+  const [comparisonError, setComparisonError] = useState('');
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     api
@@ -132,6 +134,8 @@ export default function App() {
       return;
     }
     setError('');
+    setBaselineResult(null);
+    setComparisonError('');
     setResult(
       example(
         form.business.trim(),
@@ -141,7 +145,7 @@ export default function App() {
       )
     );
   };
-  const run = async () => {
+  const run = async (compare = false) => {
     if (!valid) {
       setError(
         'Please complete the business, audience, and cultural inspiration fields.'
@@ -150,10 +154,18 @@ export default function App() {
     }
     setBusy(true);
     setResult(null);
+    setBaselineResult(null);
+    setComparisonError('');
     setError('');
     try {
       const response = await api.post('/api/campaign', form);
       setResult(response.data as Result);
+      if (compare) {
+        try {
+          const baseline = await api.post('/api/campaign', { ...form, mode: 'llm-only' });
+          setBaselineResult(baseline.data as Result);
+        } catch { setComparisonError('Qloo succeeded, but the LLM-only comparison failed. Retry the comparison.'); }
+      }
     } catch (cause: unknown) {
       const detail = cause as {
         response?: { data?: { error?: string } };
@@ -329,7 +341,7 @@ export default function App() {
                 {error}
               </div>
             )}
-            <button className="primary-action" onClick={run} disabled={busy}>
+            <button className="primary-action" onClick={() => run()} disabled={busy}>
               {busy ? (
                 <LoaderCircle size={18} className="spin" />
               ) : (
@@ -345,6 +357,7 @@ export default function App() {
             >
               <Film size={16} /> Explore layout with example ideas
             </button>
+            <button className="secondary-action" onClick={() => run(true)} disabled={busy}>Compare with LLM-only</button>
             <p className="hint">
               No campaigns are published or sent. You control every decision.
             </p>
@@ -396,6 +409,17 @@ export default function App() {
               </div>
             ) : (
               <div className="campaign-content">
+                {comparisonError && <p role="alert" className="error-banner">{comparisonError}</p>}
+                {baselineResult && <section className="comparison">
+                  <h3>Same brief. Different evidence.</h3>
+                  <p>Both runs use the same model service, brief, temperature, output structure, and planning constraints. Only the Qloo run receives retrieved cultural evidence. This is a qualitative comparison, not proof of conversion lift.</p>
+                  <h4>LLM-only · no verified cultural signals</h4>
+                  {baselineResult.campaigns.map((c, i) => <article className="campaign-card" key={i}>
+                    <h4>{c.title}</h4><blockquote>{c.hook}</blockquote><p>{c.execution}</p><p><strong>Test before scaling: </strong>{c.testPlan}</p>
+                    <p>{c.culturalLink}</p>
+                  </article>)}
+                  <h4>Qloo-grounded · {result.evidence.length} retrieved cultural signals</h4>
+                </section>}
                 <div
                   className={
                     result.mode === 'live-qloo'
