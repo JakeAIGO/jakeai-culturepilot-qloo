@@ -18,7 +18,10 @@
   {
     "name": "Reject missing cultural inspiration on mobile",
     "viewport": "mobile",
-    "covers": ["form validation", "mobile brief editor"],
+    "covers": [
+      "form validation",
+      "mobile brief editor"
+    ],
     "description": "An incomplete input cannot start a Qloo analysis or sample preview.",
     "steps": [
       "Open the app on mobile",
@@ -28,25 +31,29 @@
     "expected": "Shows a visible validation message requesting business, audience, and cultural inspiration; no campaigns are generated."
   },
   {
-    "name": "Show secure Qloo connection state and controlled failure",
+    "name": "Generate grounded live campaigns",
     "viewport": "desktop",
     "covers": [
-      "GET /api/status",
-      "POST /api/campaign",
-      "missing secret warning",
-      "failure handling"
+      "live Qloo search and insights",
+      "verified campaign evidence",
+      "measurable test plans",
+      "copy brief"
     ],
-    "description": "Without a configured key the app reports a truthful state rather than fabricating Qloo results.",
+    "description": "Configured API generates usable campaigns grounded in actual cultural connections.",
     "steps": [
-      "Open the app and inspect the API connection indicator",
-      "Click Generate with live Qloo before a key has been connected"
+      "Keep default Blue Ridge Coffee / Taylor Swift brief and click Generate with live Qloo",
+      "Wait for the live analysis and inspect all three campaign cards",
+      "Click Copy brief"
     ],
-    "expected": "The status indicates API key needed and live analysis displays a visible key-not-connected error. No live Qloo campaign results are shown."
+    "expected": "Live Qloo analysis shows cultural signals and exactly three campaigns, each with Test before scaling and an explanation stating creative hypothesis rather than measured audience demand. Copy brief confirms Copied."
   },
   {
     "name": "Show graceful backend failure for live analysis",
     "viewport": "mobile",
-    "covers": ["POST /api/campaign failure response", "retry feedback"],
+    "covers": [
+      "POST /api/campaign failure response",
+      "retry feedback"
+    ],
     "description": "Upstream errors do not cause a blank or falsely successful screen.",
     "qa_faults": [
       {
