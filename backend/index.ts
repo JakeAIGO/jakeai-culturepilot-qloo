@@ -185,6 +185,8 @@ export const handler = router({
           'Make each execution distinctive: specify an original visual, interaction, or story mechanism that fits this business. Do not offer generic photo corners, OOTD prompts, or generic playlists without a specific creative mechanism.',
           'Return creativeRationale: explain how the selected cultural references inspired the actual execution, separating creative interpretation from API facts. In Qloo mode reference the supplied names only; do not invent themes as facts measured by Qloo.',
           'Do not recommend discounts, BOGO, free goods, copyrighted lyrics, unlicensed screenings, brand endorsements, or presumed partnerships. Use full-price products and original creative. Do not invent product margins or predicted lift.',
+          'Each pilot must use existing staff, a phone, existing products and ordinary on-hand materials. Setup must fit within one staff hour. Do not require hired performers, DJs, soundboards, custom furniture, bespoke supplies, new inventory, collecting addresses, storing customer letters, future mailing commitments, or changes to normal service. Describe the smallest useful version first.',
+          'testPlan must be a single short sentence naming what to count and how to record it. Do not include numbers, percentages, dates, forecasts or success thresholds. The owner has supplied no baseline; never invent one. Do not declare success from participation alone.',
           'Business: ' + business,
           'Intended audience (user description, not Qloo-verified): ' +
             audience,
@@ -254,6 +256,7 @@ export const handler = router({
           audience,
           seed: selected,
           evidence,
+          experimentGuide: 'Test one campaign at a time against a neutral product-focused message. Keep product, full price, audience, channel and budget equal. Randomize exposure where practical and use separate tracking codes without discounts. Record exposures, purchases, revenue and costs; compare purchase rate and contribution profit. Gather a baseline before setting targets. Low traffic or unclear results mean the outcome is inconclusive.',
           campaigns: parsed.campaigns.slice(0, 3).map((value: unknown) => {
             const campaign = value as Record<string, unknown>;
             const linked = evidence.filter(item => Array.isArray(campaign.evidenceIds) && campaign.evidenceIds.includes(item.id));
@@ -261,7 +264,7 @@ export const handler = router({
             for (const field of ['title', 'hook', 'channel', 'execution', 'testPlan', 'creativeRationale']) {
               if (typeof campaign[field] !== 'string' || !String(campaign[field]).trim()) throw new Error('Campaign generation returned incomplete results. Please retry.');
             }
-            return { title: campaign.title, hook: campaign.hook, channel: campaign.channel, execution: campaign.execution, creativeRationale: campaign.creativeRationale, testPlan: 'Compare this creative (A) against a neutral product-focused creative (B) for 14 days. Keep the product, full price, call to action, audience, channel, run times and budget allocation equal; randomize allocation where possible. Use distinct tracking codes with no discount. Record exposures, purchases, revenue, product costs and campaign costs for each arm; compare purchase rate and contribution profit per exposed visitor. If traffic is low or results are uncertain, extend the test rather than declare a winner. Proposed activation metric: ' + campaign.testPlan, evidenceIds: linked.map(item => item.id), culturalLink: baseline ? 'LLM-only creative hypothesis. No Qloo evidence was supplied or verified.' : 'Qloo connects ' + selected.name + ' with ' + linked.map(item => item.name).join(', ') + '. This is a creative hypothesis to test, not measured demand from your audience.' };
+            return { title: campaign.title, hook: campaign.hook, channel: campaign.channel, execution: campaign.execution, creativeRationale: campaign.creativeRationale, testPlan: /\d/.test(String(campaign.testPlan)) ? 'Record participation and attributable full-price purchases in the existing sales log; set a decision threshold after collecting a baseline.' : String(campaign.testPlan), pilotScope: 'Use existing staff, products and on-hand materials. Owner confirms feasibility before running.', evidenceIds: linked.map(item => item.id), culturalLink: baseline ? 'LLM-only creative hypothesis. No Qloo evidence was supplied or verified.' : 'Qloo connects ' + selected.name + ' with ' + linked.map(item => item.name).join(', ') + '. This is a creative hypothesis to test, not measured demand from your audience.' };
           }),
           disclaimer:
             'Cultural affinities describe aggregate connections, not individual behavior. Validate campaigns locally before spending.',
