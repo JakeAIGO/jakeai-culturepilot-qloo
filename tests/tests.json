@@ -47,7 +47,7 @@
       "Wait for the live analysis and inspect all three campaign cards",
       "Click Copy brief"
     ],
-    "expected": "Live Qloo analysis shows cultural signals and exactly three campaigns, each with Test before scaling and an explanation stating creative hypothesis rather than measured audience demand. Copy brief confirms Copied. Each campaign shows Creative interpretation and an A/B experiment that holds price and budget equal and measures contribution profit. No automatic spending or publishing occurs."
+    "expected": "Live Qloo analysis shows cultural signals and exactly three campaigns with Creative interpretation, Pilot scope and What to measure. One simple testing method appears once, holds price and budget equal, and instructs collecting a baseline before setting targets. Campaigns do not invent numerical success thresholds. Copy brief confirms Copied."
   },
   {
     "name": "Show graceful backend failure for live analysis",
@@ -86,6 +86,6 @@
       "Click Compare with LLM-only",
       "Wait for both result groups"
     ],
-    "expected": "Shows Same brief. Different evidence., three LLM-only campaigns labeled no Qloo evidence, and three Qloo-grounded campaigns with cultural signals and test plans. States the comparison is not proof of conversion lift."
+    "expected": "Shows Same brief. Different evidence., three LLM-only campaigns labeled no Qloo evidence, and three Qloo-grounded campaigns with cultural signals and test plans. States the comparison is not proof of conversion lift. One shared testing method appears once for both sets of campaigns; each card has a short metric rather than repeated experimental instructions."
   }
 ]
