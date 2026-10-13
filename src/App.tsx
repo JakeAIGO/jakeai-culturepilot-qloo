@@ -25,6 +25,7 @@ type Campaign = {
   execution: string;
   culturalLink: string;
   testPlan?: string;
+  creativeRationale?: string;
   evidenceIds?: string[];
 };
 type Evidence = { id: string; name: string; type?: string; affinity?: number };
@@ -200,7 +201,7 @@ export default function App() {
           '\n' +
           c.execution +
           '\n' +
-          c.culturalLink + '\n' + (c.testPlan ? 'Test before scaling: ' + c.testPlan : '')
+          c.culturalLink + '\n' + (c.creativeRationale ? 'Creative interpretation: ' + c.creativeRationale + '\n' : '') + (c.testPlan ? 'Test before scaling: ' + c.testPlan : '')
       ),
       result.disclaimer,
     ].join('\n\n');
@@ -415,7 +416,8 @@ export default function App() {
                   <p>Both runs use the same model service, brief, temperature, output structure, and planning constraints. Only the Qloo run receives retrieved cultural evidence. This is a qualitative comparison, not proof of conversion lift.</p>
                   <h4>LLM-only · no verified cultural signals</h4>
                   {baselineResult.campaigns.map((c, i) => <article className="campaign-card" key={i}>
-                    <h4>{c.title}</h4><blockquote>{c.hook}</blockquote><p>{c.execution}</p><p><strong>Test before scaling: </strong>{c.testPlan}</p>
+                    <h4>{c.title}</h4><blockquote>{c.hook}</blockquote><p>{c.execution}</p>
+                      {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}<p><strong>Test before scaling: </strong>{c.testPlan}</p>
                     <p>{c.culturalLink}</p>
                   </article>)}
                   <h4>Qloo-grounded · {result.evidence.length} retrieved cultural signals</h4>
