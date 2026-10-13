@@ -492,6 +492,7 @@ export default function App() {
                       <h4>{c.title}</h4>
                       <blockquote>“{c.hook}”</blockquote>
                       <p>{c.execution}</p>
+                      {c.pilotScope && <p><strong>Pilot scope: </strong>{c.pilotScope}</p>}
                       {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}
                       {c.testPlan && <p><strong>What to measure: </strong>{c.testPlan}</p>}
                       <div className="evidence-note">
