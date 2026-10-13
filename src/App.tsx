@@ -24,6 +24,8 @@ type Campaign = {
   channel: string;
   execution: string;
   culturalLink: string;
+  testPlan?: string;
+  evidenceIds?: string[];
 };
 type Evidence = { id: string; name: string; type?: string; affinity?: number };
 type Result = {
@@ -147,6 +149,7 @@ export default function App() {
       return;
     }
     setBusy(true);
+    setResult(null);
     setError('');
     try {
       const response = await api.post('/api/campaign', form);
@@ -185,7 +188,7 @@ export default function App() {
           '\n' +
           c.execution +
           '\n' +
-          c.culturalLink
+          c.culturalLink + '\n' + (c.testPlan ? 'Test before scaling: ' + c.testPlan : '')
       ),
       result.disclaimer,
     ].join('\n\n');
@@ -217,7 +220,7 @@ export default function App() {
             {checking
               ? 'Checking API…'
               : connected
-                ? 'Live API connected'
+                ? 'API key configured'
                 : 'API key needed'}
           </span>
         </div>
@@ -456,6 +459,7 @@ export default function App() {
                       <h4>{c.title}</h4>
                       <blockquote>“{c.hook}”</blockquote>
                       <p>{c.execution}</p>
+                      {c.testPlan && <p><strong>Test before scaling: </strong>{c.testPlan}</p>}
                       <div className="evidence-note">
                         <Sparkles size={13} />
                         <span>{c.culturalLink}</span>
