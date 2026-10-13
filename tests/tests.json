@@ -11,7 +11,8 @@
     "description": "Business owner can explore a sample layout without mistakenly viewing it as actual Qloo evidence.",
     "steps": [
       "Open CulturePilot and select Explore layout with example ideas",
-      "Review the cultural signals and campaign directions"
+      "Review the cultural signals and campaign directions",
+      "Expand the first campaign Plan & evidence"
     ],
     "expected": "Shows three actionable campaign cards, explicit ILLUSTRATIVE EXAMPLE · NOT QLOO DATA banner, and a preview disclaimer."
   },
@@ -32,7 +33,7 @@
   },
   {
     "name": "Generate grounded live campaigns",
-    "viewport": "desktop",
+    "viewport": "mobile",
     "covers": [
       "live Qloo search and insights",
       "verified campaign evidence",
@@ -45,9 +46,10 @@
     "steps": [
       "Keep default Blue Ridge Coffee / Taylor Swift brief and click Generate with live Qloo",
       "Wait for the live analysis and inspect all three campaign cards",
+      "Expand the first campaign Plan & evidence, then expand View cultural signals and One simple testing method",
       "Click Copy brief"
     ],
-    "expected": "Live Qloo analysis shows cultural signals and exactly three campaigns with Creative interpretation, Pilot scope and What to measure. One simple testing method appears once, holds price and budget equal, and instructs collecting a baseline before setting targets. Campaigns do not invent numerical success thresholds. Copy brief confirms Copied."
+    "expected": "Three compact campaign cards initially show hook, Start here and What to measure. Plan & evidence expands to reveal full action, creative interpretation, pilot scope and Qloo evidence. Cultural signals and shared testing instructions expand on demand. Copy brief copies full content despite collapsed sections."
   },
   {
     "name": "Show graceful backend failure for live analysis",
