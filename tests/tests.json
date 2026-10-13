@@ -37,7 +37,9 @@
       "live Qloo search and insights",
       "verified campaign evidence",
       "measurable test plans",
-      "copy brief"
+      "copy brief",
+      "creative rationale",
+      "controlled margin-aware experiment"
     ],
     "description": "Configured API generates usable campaigns grounded in actual cultural connections.",
     "steps": [
@@ -45,7 +47,7 @@
       "Wait for the live analysis and inspect all three campaign cards",
       "Click Copy brief"
     ],
-    "expected": "Live Qloo analysis shows cultural signals and exactly three campaigns, each with Test before scaling and an explanation stating creative hypothesis rather than measured audience demand. Copy brief confirms Copied."
+    "expected": "Live Qloo analysis shows cultural signals and exactly three campaigns, each with Test before scaling and an explanation stating creative hypothesis rather than measured audience demand. Copy brief confirms Copied. Each campaign shows Creative interpretation and an A/B experiment that holds price and budget equal and measures contribution profit. No automatic spending or publishing occurs."
   },
   {
     "name": "Show graceful backend failure for live analysis",
