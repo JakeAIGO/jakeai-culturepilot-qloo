@@ -10,7 +10,6 @@ import {
   Globe2,
   Layers,
   LoaderCircle,
-  Megaphone,
   Music2,
   Radio,
   Sparkles,
@@ -101,6 +100,26 @@ const initial = {
   category: 'artist',
   goal: 'Bring in new customers',
 };
+
+function CampaignCard({ campaign: c, index }: { campaign: Campaign; index: number }) {
+  const firstSentence = c.execution.match(/^.*?[.!?](?:\s|$)/)?.[0]?.trim() || c.execution;
+  return (
+    <article className="campaign-card">
+      <div className="campaign-top"><span className="campaign-index">0{index + 1}</span><span className="campaign-channel">{c.channel}</span></div>
+      <h4>{c.title}</h4>
+      <blockquote>“{c.hook}”</blockquote>
+      <p><strong>Start here: </strong>{firstSentence}</p>
+      {c.testPlan && <p><strong>What to measure: </strong>{c.testPlan}</p>}
+      <details className="campaign-details">
+        <summary>Plan &amp; evidence</summary>
+        <p><strong>Full action: </strong>{c.execution}</p>
+        {c.pilotScope && <p><strong>Pilot scope: </strong>{c.pilotScope}</p>}
+        {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}
+        <p className="evidence-note">{c.culturalLink}</p>
+      </details>
+    </article>
+  );
+}
 
 export default function App() {
   const [form, setForm] = useState(initial);
@@ -413,20 +432,13 @@ export default function App() {
               </div>
             ) : (
               <div className="campaign-content">
-                {result.experimentGuide && <section className="source-banner preview-banner">
-                  <div><h3>One simple testing method</h3><p>{result.experimentGuide}</p></div>
-                </section>}
+                {result.experimentGuide && <details className="brief-details"><summary>One simple testing method</summary><p>{result.experimentGuide}</p></details>}
                 {comparisonError && <p role="alert" className="error-banner">{comparisonError}</p>}
                 {baselineResult && <section className="comparison">
                   <h3>Same brief. Different evidence.</h3>
                   <p>Both runs use the same model service, brief, temperature, output structure, and planning constraints. Only the Qloo run receives retrieved cultural evidence. This is a qualitative comparison, not proof of conversion lift.</p>
                   <h4>LLM-only · no verified cultural signals</h4>
-                  {baselineResult.campaigns.map((c, i) => <article className="campaign-card" key={i}>
-                    <h4>{c.title}</h4><blockquote>{c.hook}</blockquote><p>{c.execution}</p>
-                      {c.pilotScope && <p><strong>Pilot scope: </strong>{c.pilotScope}</p>}
-                      {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}<p><strong>What to measure: </strong>{c.testPlan}</p>
-                    <p>{c.culturalLink}</p>
-                  </article>)}
+                  {baselineResult.campaigns.map((c, i) => <CampaignCard campaign={c} index={i} key={i} />)}
                   <h4>Qloo-grounded · {result.evidence.length} retrieved cultural signals</h4>
                 </section>}
                 <div
@@ -457,7 +469,7 @@ export default function App() {
                     {result.evidence.length} signals
                   </span>
                 </div>
-                <div className="signals">
+                <details className="brief-details"><summary>View {result.evidence.length} cultural signals</summary><div className="signals">
                   {result.evidence.map(s => (
                     <div className="signal" key={s.id}>
                       <span className="signal-dot" />
@@ -473,6 +485,7 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+                </details>
                 <div className="insight-heading campaign-heading">
                   <div>
                     <span className="section-number">ACTION / 02</span>
@@ -480,27 +493,7 @@ export default function App() {
                   </div>
                 </div>
                 <div className="campaigns">
-                  {result.campaigns.map((c, i) => (
-                    <article className="campaign-card" key={i}>
-                      <div className="campaign-top">
-                        <span className="campaign-index">0{i + 1}</span>
-                        <span className="campaign-channel">
-                          <Megaphone size={13} />
-                          {c.channel}
-                        </span>
-                      </div>
-                      <h4>{c.title}</h4>
-                      <blockquote>“{c.hook}”</blockquote>
-                      <p>{c.execution}</p>
-                      {c.pilotScope && <p><strong>Pilot scope: </strong>{c.pilotScope}</p>}
-                      {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}
-                      {c.testPlan && <p><strong>What to measure: </strong>{c.testPlan}</p>}
-                      <div className="evidence-note">
-                        <Sparkles size={13} />
-                        <span>{c.culturalLink}</span>
-                      </div>
-                    </article>
-                  ))}
+                  {result.campaigns.map((c, i) => <CampaignCard campaign={c} index={i} key={i} />)}
                 </div>
                 <p className="disclaimer">{result.disclaimer}</p>
               </div>
