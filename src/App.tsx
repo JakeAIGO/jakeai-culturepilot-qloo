@@ -25,6 +25,7 @@ type Campaign = {
   execution: string;
   culturalLink: string;
   testPlan?: string;
+  pilotScope?: string;
   creativeRationale?: string;
   evidenceIds?: string[];
 };
@@ -37,6 +38,7 @@ type Result = {
   evidence: Evidence[];
   campaigns: Campaign[];
   disclaimer: string;
+  experimentGuide?: string;
 };
 
 const example = (
@@ -188,6 +190,7 @@ export default function App() {
       'JakeAI CulturePilot — ' +
         (result.mode === 'live-qloo' ? 'Qloo-powered report' : 'Example only'),
       result.business + ' | ' + result.audience,
+      result.experimentGuide ? 'Shared testing method: ' + result.experimentGuide : '',
       ...result.campaigns.map(
         (c, i) =>
           i +
@@ -201,7 +204,7 @@ export default function App() {
           '\n' +
           c.execution +
           '\n' +
-          c.culturalLink + '\n' + (c.creativeRationale ? 'Creative interpretation: ' + c.creativeRationale + '\n' : '') + (c.testPlan ? 'Test before scaling: ' + c.testPlan : '')
+          c.culturalLink + '\n' + (c.creativeRationale ? 'Creative interpretation: ' + c.creativeRationale + '\n' : '') + (c.testPlan ? 'What to measure: ' + c.testPlan : '')
       ),
       result.disclaimer,
     ].join('\n\n');
@@ -410,6 +413,9 @@ export default function App() {
               </div>
             ) : (
               <div className="campaign-content">
+                {result.experimentGuide && <section className="source-banner preview-banner">
+                  <div><h3>One simple testing method</h3><p>{result.experimentGuide}</p></div>
+                </section>}
                 {comparisonError && <p role="alert" className="error-banner">{comparisonError}</p>}
                 {baselineResult && <section className="comparison">
                   <h3>Same brief. Different evidence.</h3>
@@ -417,7 +423,8 @@ export default function App() {
                   <h4>LLM-only · no verified cultural signals</h4>
                   {baselineResult.campaigns.map((c, i) => <article className="campaign-card" key={i}>
                     <h4>{c.title}</h4><blockquote>{c.hook}</blockquote><p>{c.execution}</p>
-                      {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}<p><strong>Test before scaling: </strong>{c.testPlan}</p>
+                      {c.pilotScope && <p><strong>Pilot scope: </strong>{c.pilotScope}</p>}
+                      {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}<p><strong>What to measure: </strong>{c.testPlan}</p>
                     <p>{c.culturalLink}</p>
                   </article>)}
                   <h4>Qloo-grounded · {result.evidence.length} retrieved cultural signals</h4>
@@ -486,7 +493,7 @@ export default function App() {
                       <blockquote>“{c.hook}”</blockquote>
                       <p>{c.execution}</p>
                       {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}
-                      {c.testPlan && <p><strong>Test before scaling: </strong>{c.testPlan}</p>}
+                      {c.testPlan && <p><strong>What to measure: </strong>{c.testPlan}</p>}
                       <div className="evidence-note">
                         <Sparkles size={13} />
                         <span>{c.culturalLink}</span>
