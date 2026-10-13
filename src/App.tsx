@@ -485,6 +485,7 @@ export default function App() {
                       <h4>{c.title}</h4>
                       <blockquote>“{c.hook}”</blockquote>
                       <p>{c.execution}</p>
+                      {c.creativeRationale && <p><strong>Creative interpretation: </strong>{c.creativeRationale}</p>}
                       {c.testPlan && <p><strong>Test before scaling: </strong>{c.testPlan}</p>}
                       <div className="evidence-note">
                         <Sparkles size={13} />
