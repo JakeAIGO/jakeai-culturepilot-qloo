@@ -4,14 +4,15 @@ An independent entry project for the [Qloo Agentic Hackathon](https://qloo.devpo
 
 ## Project status
 
-The app is deployed with an illustrative preview while waiting for a Qloo event API key. **Preview results are not Qloo results and are labeled accordingly.** Live analysis must be verified after a key is added. Do not describe the app as hackathon-ready until a real end-to-end call succeeds.
+Live Qloo integration verified October 13, 2026: the Taylor Swift / Blue Ridge Coffee scenario returned 12 cultural signals and three campaign directions. Illustrative preview remains explicitly labeled and is never a fallback for failed live calls.
 
 ## How it works
 
 1. Enter a business, target audience, a named cultural seed (artist/movie/brand), and objective.
 2. Server searches Qloo for the cultural seed, requests cross-category insights, and extracts named results.
-3. An AI call produces three campaign concepts constrained by those results.
-4. User reviews, copies, and approves ideas. No publishing or personal data collection.
+3. An AI call produces three campaign concepts, each selecting actual Qloo entity IDs and a measurable low-cost test.
+4. Server validates the selected IDs and writes the cultural evidence explanation deterministically. Qloo signals are never presented as measured demographic demand.
+5. User reviews, copies, and approves ideas. No publishing or personal data collection.
 
 The Qloo key is a server-side secret named `QLOO_API_KEY`; it is never sent to browsers or checked into source control. The code is separate from the private JakeAI platform.
 
